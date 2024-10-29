@@ -4,7 +4,17 @@
 
 ## Analyse des tables et des relations
 
-L'application *Conversation* s’appuie sur une structure de tables relationnelles pour gérer ses données. Chaque table est conçue pour stocker des informations spécifiques tout en maintenant une cohérence relationnelle grâce à des clés uniques et des clés étrangères.
+## Fichier contenant les conf
+
+https://github.com/NPozzaUNamur/Evolution_Group4/blob/main/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java
+
+https://github.com/NPozzaUNamur/Evolution_Group4/blob/main/conversations/src/main/java/eu/siacs/conversations/entities/Account.java
+
+https://github.com/NPozzaUNamur/Evolution_Group4/blob/main/conversations/src/main/java/eu/siacs/conversations/entities/Contact.java
+
+https://github.com/NPozzaUNamur/Evolution_Group4/blob/main/conversations/src/main/java/eu/siacs/conversations/entities/Conversation.java
+
+https://github.com/NPozzaUNamur/Evolution_Group4/blob/main/conversations/src/main/java/eu/siacs/conversations/persistance/UnifiedPushDatabase.java
 
 ### Schéma des Tables et Relations
 
