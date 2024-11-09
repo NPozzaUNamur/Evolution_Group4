@@ -39,6 +39,8 @@ On y apprend que la base de donnée se nomme `history`, et qu'elle est utilisé 
 
 La version de la base de données est 52
 
+Cette base de données est liée aux features de communication. Elle contient des données relative aux contactes, messages, conversation, etc.
+
 #### Contact
 ---
 
@@ -418,31 +420,877 @@ create table conversations (
 
 ##### Alteration
 
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 319`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Conversation.TABLENAME + " ADD COLUMN "
+        + Conversation.ATTRIBUTES + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE conversations ADD COLUMN attributes TEXT
+```
+
 ##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">CONVERSATION</p> |
+| - |
+| <ins>**uuid**</ins>: TEXT |
+| name: TEXT |
+| contactUuid: TEXT |
+| accountUuid: TEXT |
+| contactJid: TEXT |
+| created: NUMERIC |
+| status: NUMERIC |
+| mode: NUMERIC |
+| attributes: TEXT |
+| |
+| id: uuid |
+| ref: accountUuid |
 
 #### Message
 ---
 
 ##### Création
 
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 247`
+
+```java
+import eu.siacs.conversations.entities.Conversation;
+import eu.siacs.conversations.entities.Message;      //Line 49
+// ...
+db.execSQL("create table " + Message.TABLENAME + "( " + Message.UUID
+    + " TEXT PRIMARY KEY, " + Message.CONVERSATION + " TEXT, "
+    + Message.TIME_SENT + " NUMBER, " + Message.COUNTERPART
+    + " TEXT, " + Message.TRUE_COUNTERPART + " TEXT,"
+    + Message.BODY + " TEXT, " + Message.ENCRYPTION + " NUMBER, "
+    + Message.STATUS + " NUMBER," + Message.TYPE + " NUMBER, "
+    + Message.RELATIVE_FILE_PATH + " TEXT, "
+    + Message.SERVER_MSG_ID + " TEXT, "
+    + Message.FINGERPRINT + " TEXT, "
+    + Message.CARBON + " INTEGER, "
+    + Message.EDITED + " TEXT, "
+    + Message.READ + " NUMBER DEFAULT 1, "
+    + Message.OOB + " INTEGER, "
+    + Message.ERROR_MESSAGE + " TEXT,"
+    + Message.READ_BY_MARKERS + " TEXT,"
+    + Message.MARKABLE + " NUMBER DEFAULT 0,"
+    + Message.DELETED + " NUMBER DEFAULT 0,"
+    + Message.BODY_LANGUAGE + " TEXT,"
+    + Message.OCCUPANT_ID + " TEXT,"
+    + Message.REACTIONS + " TEXT,"
+    + Message.REMOTE_MSG_ID + " TEXT, FOREIGN KEY("
+    + Message.CONVERSATION + ") REFERENCES "
+    + Conversation.TABLENAME + "(" + Conversation.UUID
+    + ") ON DELETE CASCADE);"
+);
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/entities/Message.java` on peut reconstituer la requête SQL (DDL).
+
+```sql
+create table messages(
+    uuid TEXT PRIMARY KEY,
+    conversationUuid TEXT,
+    timeSent NUMBER,
+    counterpart TEXT,
+    trueCounterpart TEXT,
+    body TEXT,
+    encryption NUMBER,
+    status NUMBER,
+    type NUMBER,
+    relativeFilePath TEXT,
+    serverMsgId TEXT,
+    axolotl_fingerprint TEXT,
+    carbon INTEGER,
+    edited TEXT,
+    read NUMBER DEFAULT 1,
+    oob INTEGER,
+    errorMsg TEXT,
+    readByMarkers TEXT,
+    markable NUMBER DEFAULT 0,
+    deleted NUMBER DEFAULT 0,
+    bodyLanguage TEXT,
+    occupantId TEXT,
+    reactions TEXT,
+    remoteMsgId TEXT, 
+    
+    FOREIGN KEY(conversationUuid) REFERENCES conversations(uuid) ON DELETE CASCADE);
+```
+
 ##### Alteration
 
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 297`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "
+        + Message.TYPE + " NUMBER");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN type NUMBER
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 307`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "
+        + Message.TRUE_COUNTERPART + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN trueCounterpart TEXT
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 329`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "
+        + Message.RELATIVE_FILE_PATH + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN relativeFilePath TEXT
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 339`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "
+        + Message.SERVER_MSG_ID + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN serverMsgId TEXT
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 351`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "
+        + Message.FINGERPRINT + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN axolotl_fingerprint TEXT
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 355`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "
+        + Message.CARBON + " INTEGER");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN carbon INTEGER
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 403`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.READ + " NUMBER DEFAULT 1");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN read NUMBER DEFAULT 1
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 424`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.EDITED + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN edited TEXT
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 428`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.OOB + " INTEGER");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN oob INTEGER
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 444`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.ERROR_MESSAGE + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN errorMsg TEXT
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 533`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.READ_BY_MARKERS + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN readByMarkers TEXT
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 537`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.MARKABLE + " NUMBER DEFAULT 0");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN markable NUMBER DEFAULT 0
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 554`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.DELETED + " NUMBER DEFAULT 0");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN deleted NUMBER DEFAULT 0
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 561`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.BODY_LANGUAGE);
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN bodyLanguage
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 607`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.OCCUPANT_ID + " TEXT");
+    db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN " + Message.REACTIONS + " TEXT");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE messages ADD COLUMN occupantId TEXT
+ALTER TABLE messages ADD COLUMN reactions TEXT
+```
+
 ##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">MESSAGE</p> |
+| - |
+| <ins>**uuid**</ins>: TEXT |
+| conversationUuid: TEXT |
+| timeSent: NUMBER |
+| counterpart: TEXT |
+| trueCounterpart: TEXT |
+| body: TEXT |
+| encryption: NUMBER |
+| status: NUMBER |
+| type: NUMBER |
+| relativeFilePath: TEXT |
+| serverMsgId: TEXT |
+| axolotl_fingerprint: TEXT |
+| carbon: INTEGER |
+| edited: TEXT |
+| read: NUMBER |
+| oob: INTEGER |
+| errorMsg: TEXT |
+| readByMarkers: TEXT |
+| markable: NUMBER |
+| deleted: NUMBER |
+| bodyLanguage: TEXT |
+| occupantId: TEXT |
+| reactions: TEXT |
+| remoteMsgId: TEXT |
+| |
+| id: uuid |
+| ref: conversationUuid |
 
 #### Identity
 ---
 
 ##### Création
 
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 139`
+```java
+import eu.siacs.conversations.crypto.axolotl.SQLiteAxolotlStore; //Line 45
+import eu.siacs.conversations.entities.Account; //Line 46
+// ...
+private static final String CREATE_IDENTITIES_STATEMENT = "CREATE TABLE "
+    + SQLiteAxolotlStore.IDENTITIES_TABLENAME + "("
+    + SQLiteAxolotlStore.ACCOUNT + " TEXT,  "
+    + SQLiteAxolotlStore.NAME + " TEXT, "
+    + SQLiteAxolotlStore.OWN + " INTEGER, "
+    + SQLiteAxolotlStore.FINGERPRINT + " TEXT, "
+    + SQLiteAxolotlStore.CERTIFICATE + " BLOB, "
+    + SQLiteAxolotlStore.TRUST + " TEXT, "
+    + SQLiteAxolotlStore.ACTIVE + " NUMBER, "
+    + SQLiteAxolotlStore.LAST_ACTIVATION + " NUMBER,"
+    + SQLiteAxolotlStore.KEY + " TEXT, FOREIGN KEY("
+    + SQLiteAxolotlStore.ACCOUNT
+    + ") REFERENCES " + Account.TABLENAME + "(" + Account.UUID + ") ON DELETE CASCADE, "
+    + "UNIQUE( " + SQLiteAxolotlStore.ACCOUNT + ", "
+    + SQLiteAxolotlStore.NAME + ", "
+    + SQLiteAxolotlStore.FINGERPRINT
+    + ") ON CONFLICT IGNORE"
+    + ");";
+// ...
+public void onCreate(SQLiteDatabase db) { //Line 219
+    // ...
+    db.execSQL(CREATE_IDENTITIES_STATEMENT); //Line 281
+    // ...
+}
+//...
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/crypto/axolotl/SQLiteAxolotlStore.java`, on peut reconstituer la requête SQL (DDL).
+
+```sql
+CREATE TABLE identities(
+    account TEXT,
+    name TEXT,
+    ownkey INTEGER,
+    fingerprint TEXT,
+    certificate BLOB,
+    trust TEXT,
+    active NUMBER,
+    last_activation NUMBER,
+    key TEXT,
+    
+    FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE
+    UNIQUE( account, name, fingerprint) ON CONFLICT IGNORE
+);
+```
+
 ##### Alteration
 
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 416`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN " + SQLiteAxolotlStore.CERTIFICATE);
+    // ...
+}
+```
+
+```sql
+ALTER TABLE identities ADD COLUMN certificate
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 447`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+    db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN " + SQLiteAxolotlStore.TRUST + " TEXT");
+    db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN " + SQLiteAxolotlStore.ACTIVE + " NUMBER");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE identities ADD COLUMN trust TEXT
+ALTER TABLE identities ADD COLUMN active NUMBER
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 467`
+
+```java
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Line 291
+    // ...
+   db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN " + SQLiteAxolotlStore.LAST_ACTIVATION + " NUMBER");
+    // ...
+}
+```
+
+```sql
+ALTER TABLE identities ADD COLUMN last_activation NUMBER
+```
+
 ##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">IDENTITY</p> |
+| - |
+| <ins>**account**</ins>: TEXT |
+| <ins>**name**</ins>: TEXT |
+| ownkey: INTEGER |
+| <ins>**fingerprint**</ins>: TEXT |
+| certificate: BLOB |
+| trust: TEXT |
+| active: NUMBER |
+| last_activation: NUMBER |
+| key: TEXT |
+| |
+| id: (account, name, fingerprint) |
+| ref: account |
 
 #### Session
 ---
 
 ##### Création
 
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 125`
+```java
+import eu.siacs.conversations.crypto.axolotl.SQLiteAxolotlStore; //Line 45
+import eu.siacs.conversations.entities.Account; //Line 46
+// ...
+private static final String CREATE_SESSIONS_STATEMENT = "CREATE TABLE "
+    + SQLiteAxolotlStore.SESSION_TABLENAME + "("
+    + SQLiteAxolotlStore.ACCOUNT + " TEXT,  "
+    + SQLiteAxolotlStore.NAME + " TEXT, "
+    + SQLiteAxolotlStore.DEVICE_ID + " INTEGER, "
+    + SQLiteAxolotlStore.KEY + " TEXT, FOREIGN KEY("
+    + SQLiteAxolotlStore.ACCOUNT
+    + ") REFERENCES " + Account.TABLENAME + "(" + Account.UUID + ") ON DELETE CASCADE, "
+    + "UNIQUE( " + SQLiteAxolotlStore.ACCOUNT + ", "
+    + SQLiteAxolotlStore.NAME + ", "
+    + SQLiteAxolotlStore.DEVICE_ID
+    + ") ON CONFLICT REPLACE"
+    + ");";
+// ...
+public void onCreate(SQLiteDatabase db) { //Line 219
+    // ...
+    db.execSQL(CREATE_SESSIONS_STATEMENT); //Line 278
+    // ...
+}
+//...
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/crypto/axolotl/SQLiteAxolotlStore.java`, on peut reconstituer la requête SQL (DDL).
+
+```sql
+CREATE TABLE sessions(
+    account TEXT,
+    name TEXT,
+    device_id INTEGER,
+    key TEXT,
+    
+    FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE,
+    UNIQUE( account, name, device_id) ON CONFLICT REPLACE
+);
+```
+
 ##### Alteration
 
+La table ne subit pas d'alteration.
+
 ##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">SESSION</p> |
+| - |
+| <ins>**account**</ins>: TEXT |
+| <ins>**name**</ins>: TEXT |
+| <ins>**device_id**</ins>: TEXT |
+| key: TEXT |
+| |
+| id: (account, name, device_id) |
+| ref: account |
+
+#### Prekey
+---
+
+##### Création
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 101`
+```java
+import eu.siacs.conversations.crypto.axolotl.SQLiteAxolotlStore; //Line 45
+import eu.siacs.conversations.entities.Account; //Line 46
+// ...
+private static final String CREATE_PREKEYS_STATEMENT = "CREATE TABLE "
+    + SQLiteAxolotlStore.PREKEY_TABLENAME + "("
+    + SQLiteAxolotlStore.ACCOUNT + " TEXT,  "
+    + SQLiteAxolotlStore.ID + " INTEGER, "
+    + SQLiteAxolotlStore.KEY + " TEXT, FOREIGN KEY("
+    + SQLiteAxolotlStore.ACCOUNT
+    + ") REFERENCES " + Account.TABLENAME + "(" + Account.UUID + ") ON DELETE CASCADE, "
+    + "UNIQUE( " + SQLiteAxolotlStore.ACCOUNT + ", "
+    + SQLiteAxolotlStore.ID
+    + ") ON CONFLICT REPLACE"
+    + ");";
+// ...
+public void onCreate(SQLiteDatabase db) { //Line 219
+    // ...
+    db.execSQL(CREATE_PREKEYS_STATEMENT); //Line 279
+    // ...
+}
+//...
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/crypto/axolotl/SQLiteAxolotlStore.java`, on peut reconstituer la requête SQL (DDL).
+
+```sql
+CREATE TABLE prekeys(
+    account TEXT,
+    id INTEGER,
+    key TEXT,
+    FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE,
+    UNIQUE( account, id) ON CONFLICT REPLACE
+);
+```
+
+##### Alteration
+
+La table ne subit pas d'alteration.
+
+##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">PREKEY</p> |
+| - |
+| <ins>**account**</ins>: TEXT |
+| <ins>**id**</ins>: INTEGER |
+| key: TEXT |
+| |
+| id: (account, id) |
+| ref: account |
+
+#### Signed Prekey
+---
+
+##### Création
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 113`
+```java
+import eu.siacs.conversations.crypto.axolotl.SQLiteAxolotlStore; //Line 45
+import eu.siacs.conversations.entities.Account; //Line 46
+// ...
+private static final String CREATE_SIGNED_PREKEYS_STATEMENT = "CREATE TABLE "
+    + SQLiteAxolotlStore.SIGNED_PREKEY_TABLENAME + "("
+    + SQLiteAxolotlStore.ACCOUNT + " TEXT,  "
+    + SQLiteAxolotlStore.ID + " INTEGER, "
+    + SQLiteAxolotlStore.KEY + " TEXT, FOREIGN KEY("
+    + SQLiteAxolotlStore.ACCOUNT
+    + ") REFERENCES " + Account.TABLENAME + "(" + Account.UUID + ") ON DELETE CASCADE, "
+    + "UNIQUE( " + SQLiteAxolotlStore.ACCOUNT + ", "
+    + SQLiteAxolotlStore.ID
+    + ") ON CONFLICT REPLACE" +
+    ");";
+// ...
+public void onCreate(SQLiteDatabase db) { //Line 219
+    // ...
+    db.execSQL(CREATE_SIGNED_PREKEYS_STATEMENT); //Line 280
+    // ...
+}
+//...
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/crypto/axolotl/SQLiteAxolotlStore.java`, on peut reconstituer la requête SQL (DDL).
+
+```sql
+CREATE TABLE signed_prekeys(
+    account TEXT,
+    id INTEGER,
+    key TEXT,
+    
+    FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE,
+    UNIQUE( account, id) ON CONFLICT REPLACE
+);
+
+```
+
+##### Alteration
+
+La table ne subit pas d'alteration.
+
+##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">SIGNED_PREKEY</p> |
+| - |
+| <ins>**account**</ins>: TEXT |
+| <ins>**id**</ins>: INTEGER |
+| key: TEXT |
+| |
+| id: (account, id) |
+| ref: account |
+
+#### Resolver Result
+---
+
+##### Création
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 158`
+```java
+import eu.siacs.conversations.utils.Resolver; // Line 59
+// ...
+private static final String RESOLVER_RESULTS_TABLENAME = "resolver_results";
+
+private static final String CREATE_RESOLVER_RESULTS_TABLE = "create table " + RESOLVER_RESULTS_TABLENAME + "("
+        + Resolver.Result.DOMAIN + " TEXT,"
+        + Resolver.Result.HOSTNAME + " TEXT,"
+        + Resolver.Result.IP + " BLOB,"
+        + Resolver.Result.PRIORITY + " NUMBER,"
+        + Resolver.Result.DIRECT_TLS + " NUMBER,"
+        + Resolver.Result.AUTHENTICATED + " NUMBER,"
+        + Resolver.Result.PORT + " NUMBER,"
+        + "UNIQUE(" + Resolver.Result.DOMAIN + ") ON CONFLICT REPLACE"
+        + ");";
+// ...
+public void onCreate(SQLiteDatabase db) { //Line 219
+    // ...
+    db.execSQL(CREATE_RESOLVER_RESULTS_TABLE); //Line 283
+    // ...
+}
+//...
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/utils/Resolver.java`, on peut reconstituer la requête SQL (DDL).
+
+```sql
+create table resolver_results(
+    domain TEXT,
+    hostname TEXT,
+    ip BLOB,
+    priority NUMBER,
+    directTls NUMBER,
+    authenticated NUMBER,
+    port NUMBER,
+    
+    UNIQUE(domain) ON CONFLICT REPLACE
+);
+```
+
+##### Alteration
+
+La table ne subit pas d'alteration.
+
+##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">RESOLVER_RESULT</p> |
+| - |
+| <ins>**domain**</ins>: TEXT |
+| hostname: TEXT |
+| ip: BLOB |
+| priority: NUMBER |
+| directTls: NUMBER |
+| authenticated: NUMBER |
+| port: NUMBER |
+| |
+| id: domain |
+
+#### Discovery Result
+---
+
+##### Création
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 85`
+```java
+import eu.siacs.conversations.entities.ServiceDiscoveryResult; // Line 52
+// ...
+private static final String CREATE_DISCOVERY_RESULTS_STATEMENT = "create table "
+    + ServiceDiscoveryResult.TABLENAME + "("
+    + ServiceDiscoveryResult.HASH + " TEXT, "
+    + ServiceDiscoveryResult.VER + " TEXT, "
+    + ServiceDiscoveryResult.RESULT + " TEXT, "
+    + "UNIQUE(" + ServiceDiscoveryResult.HASH + ", "
+    + ServiceDiscoveryResult.VER + ") ON CONFLICT REPLACE);";
+// ...
+public void onCreate(SQLiteDatabase db) { //Line 219
+    // ...
+    db.execSQL(CREATE_DISCOVERY_RESULTS_STATEMENT); //Line 277
+    // ...
+}
+//...
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/utils/Resolver.java`, on peut reconstituer la requête SQL (DDL).
+
+```sql
+create table discovery_results(
+    hash TEXT,
+    ver TEXT,
+    result TEXT,
+    
+    UNIQUE(hash, ver) ON CONFLICT REPLACE
+);
+
+```
+
+##### Alteration
+
+La table ne subit pas d'alteration.
+
+##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">DISCOVERY_RESULT</p> |
+| - |
+| <ins>**hash**</ins>: TEXT |
+| <ins>**ver**</ins>: TEXT |
+| result: TEXT |
+| |
+| id: (hash, ver) |
+
+#### Presence Template
+---
+
+##### Création
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 93`
+```java
+import eu.siacs.conversations.entities.PresenceTemplate; // Line 50
+// ...
+private static final String CREATE_PRESENCE_TEMPLATES_STATEMENT = "CREATE TABLE "
+    + PresenceTemplate.TABELNAME + "("
+    + PresenceTemplate.UUID + " TEXT, "
+    + PresenceTemplate.LAST_USED + " NUMBER,"
+    + PresenceTemplate.MESSAGE + " TEXT,"
+    + PresenceTemplate.STATUS + " TEXT,"
+    + "UNIQUE(" + PresenceTemplate.MESSAGE + "," + PresenceTemplate.STATUS + ") ON CONFLICT REPLACE);";
+// ...
+public void onCreate(SQLiteDatabase db) { //Line 219
+    // ...
+    db.execSQL(CREATE_PRESENCE_TEMPLATES_STATEMENT); //Line 282
+    // ...
+}
+//...
+```
+
+Grâce à `conversations/src/main/java/eu/siacs/conversations/entities/PresenceTemplate.java`, on peut reconstituer la requête SQL (DDL).
+
+```sql
+CREATE TABLE presence_templates(
+    uuid TEXT,
+    last_used NUMBER,
+    message TEXT,
+    status TEXT,
+    
+    UNIQUE(message,status) ON CONFLICT REPLACE
+);
+```
+
+##### Alteration
+
+La table ne subit pas d'alteration.
+
+##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">PRESENCE_TEMPLATE</p> |
+| - |
+| uuid: TEXT |
+| last_used: NUMBER |
+| <ins>**message**</ins>: TEXT |
+| <ins>**status**</ins>: TEXT |
+| |
+| id: (message, status) |
+
+### Unified Push Distributor
+
+Cette base de donnée est liée à la classe UnifiedPushDatabase trouvable dans `conversations/src/main/java/eu/siacs/conversations/persistance/UnifiedPushDatabase.java ligne 23`.
+
+```java
+public class UnifiedPushDatabase extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "unified-push-distributor";
+    private static final int DATABASE_VERSION = 1;
+    // ...
+}
+```
+
+On y apprend que la base de donnée se nomme `unified-push-distributor`, et qu'elle est utilisé dans sa version *1*. 
+
+Cette base de données est liée au système de notification. Sa seule table contient les notifications.
+
+#### Push
+---
+
+##### Création
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/UnifiedPushDatabase.java line 45`
+```java
+// ...
+public void onCreate(final SQLiteDatabase sqLiteDatabase) {
+    sqLiteDatabase.execSQL(
+        "CREATE TABLE push (account TEXT, transport TEXT, application TEXT NOT NULL, instance TEXT NOT NULL UNIQUE, endpoint TEXT, expiration NUMBER DEFAULT 0)");
+}
+//...
+```
+
+Plus clairement, ci-dessous l'instruction DDL.
+
+```sql
+CREATE TABLE push (
+    account TEXT,
+    transport TEXT,
+    application TEXT NOT NULL,
+    instance TEXT NOT NULL UNIQUE,
+    endpoint TEXT,
+    expiration NUMBER DEFAULT 0
+)
+```
+
+##### Visualisation
+
+| <p style="text-align: center; padding: 0; margin: 0;">PUSH</p> |
+| - |
+| account: TEXT |
+| transport: TEXT |
+| application: TEXT |
+| instance: TEXT |
+| endpoint: TEXT |
+| expiration: TEXT |
