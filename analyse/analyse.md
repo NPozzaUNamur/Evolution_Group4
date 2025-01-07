@@ -17,6 +17,7 @@
     - [Presence Template](#presence-template)
 - [Unified Push Distributor](#unified-push-distributor)
     - [Push](#push)
+- [Other Construction](#other-construction)
 
 L'application possède deux bases de donnée différentes, *history* et *unified-push-distributor*. La première contient toutes les tables importantes. La deuxième ne contient qu'une seule table.
 
@@ -179,11 +180,11 @@ ALTER TABLE contacts ADD COLUMN rtpCapability TEXT
 
 | <p style="text-align: center; padding: 0; margin: 0;">CONTACTS</p> |
 | - |
-| <ins>**accountUuid**</ins>: TEXT |
+| accountUuid: TEXT |
 | servername: TEXT |
 | systemname: TEXT |
 | presence_name: TEXT |
-| <ins>**jid**</ins>: TEXT |
+| jid: TEXT |
 | pgpkey: TEXT |
 | photouri: TEXT |
 | options: NUMERIC |
@@ -194,8 +195,8 @@ ALTER TABLE contacts ADD COLUMN rtpCapability TEXT
 | rtpCapability: TEXT |
 | groups: TEXT |
 | |
-| id: (jid, accountUuid) |
-| ref: accountUuid |
+| unique: (jid, accountUuid) |
+| ref: accountUuid -> accounts(uuid) |
 
 
 #### Account
@@ -450,7 +451,7 @@ ALTER TABLE conversations ADD COLUMN attributes TEXT
 | attributes: TEXT |
 | |
 | id: uuid |
-| ref: accountUuid |
+| ref: accountUuid -> accounts(uuid) |
 
 #### Message
 ---
@@ -741,6 +742,49 @@ public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { //Lin
 ALTER TABLE messages ADD COLUMN occupantId TEXT
 ALTER TABLE messages ADD COLUMN reactions TEXT
 ```
+##### Index
+
+De multiple index sont créer pour cette table.
+
+```java
+private static final String CREATE_MESSAGE_TIME_INDEX = "CREATE INDEX message_time_index ON " + Message.TABLENAME + "(" + Message.TIME_SENT + ")";
+```
+
+```sql
+CREATE INDEX message_time_index ON messages(timeSent)
+```
+
+```java
+private static final String CREATE_MESSAGE_CONVERSATION_INDEX = "CREATE INDEX message_conversation_index ON " + Message.TABLENAME + "(" + Message.CONVERSATION + ")";
+```
+
+```sql
+CREATE INDEX message_conversation_index ON messages(conversationUuid)
+```
+
+```java
+private static final String CREATE_MESSAGE_DELETED_INDEX = "CREATE INDEX message_deleted_index ON " + Message.TABLENAME + "(" + Message.DELETED + ")";
+```
+
+```sql
+CREATE INDEX message_deleted_index ON messages(deleted)
+```
+
+```java
+private static final String CREATE_MESSAGE_RELATIVE_FILE_PATH_INDEX = "CREATE INDEX message_file_path_index ON " + Message.TABLENAME + "(" + Message.RELATIVE_FILE_PATH + ")";
+```
+
+```sql
+CREATE INDEX message_file_path_index ON messages(relativeFilePath)
+```
+
+```java
+private static final String CREATE_MESSAGE_TYPE_INDEX = "CREATE INDEX message_type_index ON " + Message.TABLENAME + "(" + Message.TYPE + ")";
+```
+
+```sql
+CREATE INDEX message_type_index ON messages(type)
+```
 
 ##### Visualisation
 
@@ -772,7 +816,7 @@ ALTER TABLE messages ADD COLUMN reactions TEXT
 | remoteMsgId: TEXT |
 | |
 | id: uuid |
-| ref: conversationUuid |
+| ref: conversationUuid -> conversations(uuid) |
 
 #### Identity
 ---
@@ -880,18 +924,18 @@ ALTER TABLE identities ADD COLUMN last_activation NUMBER
 
 | <p style="text-align: center; padding: 0; margin: 0;">IDENTITY</p> |
 | - |
-| <ins>**account**</ins>: TEXT |
-| <ins>**name**</ins>: TEXT |
+| account: TEXT |
+| name: TEXT |
 | ownkey: INTEGER |
-| <ins>**fingerprint**</ins>: TEXT |
+| fingerprint: TEXT |
 | certificate: BLOB |
 | trust: TEXT |
-| active: NUMBER |
+| active: NUMBER |	
 | last_activation: NUMBER |
 | key: TEXT |
 | |
-| id: (account, name, fingerprint) |
-| ref: account |
+| unique: (account, name, fingerprint) |
+| ref: account -> accounts(uuid) |
 
 #### Session
 ---
@@ -947,13 +991,13 @@ La table ne subit pas d'alteration.
 
 | <p style="text-align: center; padding: 0; margin: 0;">SESSION</p> |
 | - |
-| <ins>**account**</ins>: TEXT |
-| <ins>**name**</ins>: TEXT |
-| <ins>**device_id**</ins>: TEXT |
+| account: TEXT |
+| name: TEXT |
+| device_id: TEXT |
 | key: TEXT |
 | |
-| id: (account, name, device_id) |
-| ref: account |
+| unique: (account, name, device_id) |
+| ref: account -> accounts(uuid) |
 
 #### Prekey
 ---
@@ -1005,12 +1049,12 @@ La table ne subit pas d'alteration.
 
 | <p style="text-align: center; padding: 0; margin: 0;">PREKEY</p> |
 | - |
-| <ins>**account**</ins>: TEXT |
-| <ins>**id**</ins>: INTEGER |
+| account: TEXT |
+| id: INTEGER |
 | key: TEXT |
 | |
-| id: (account, id) |
-| ref: account |
+| unique: (account, id) |
+| ref: account -> accounts(uuid) |
 
 #### Signed Prekey
 ---
@@ -1064,12 +1108,12 @@ La table ne subit pas d'alteration.
 
 | <p style="text-align: center; padding: 0; margin: 0;">SIGNED_PREKEY</p> |
 | - |
-| <ins>**account**</ins>: TEXT |
-| <ins>**id**</ins>: INTEGER |
+| account: TEXT |
+| id: INTEGER |
 | key: TEXT |
 | |
-| id: (account, id) |
-| ref: account |
+| unique: (account, id) |
+| ref: account -> accounts(uuid)	|
 
 #### Resolver Result
 ---
@@ -1125,7 +1169,7 @@ La table ne subit pas d'alteration.
 
 | <p style="text-align: center; padding: 0; margin: 0;">RESOLVER_RESULT</p> |
 | - |
-| <ins>**domain**</ins>: TEXT |
+| domain: TEXT |
 | hostname: TEXT |
 | ip: BLOB |
 | priority: NUMBER |
@@ -1133,7 +1177,7 @@ La table ne subit pas d'alteration.
 | authenticated: NUMBER |
 | port: NUMBER |
 | |
-| id: domain |
+| unique: domain |
 
 #### Discovery Result
 ---
@@ -1181,11 +1225,11 @@ La table ne subit pas d'alteration.
 
 | <p style="text-align: center; padding: 0; margin: 0;">DISCOVERY_RESULT</p> |
 | - |
-| <ins>**hash**</ins>: TEXT |
-| <ins>**ver**</ins>: TEXT |
+| hash: TEXT |
+| ver: TEXT |
 | result: TEXT |
 | |
-| id: (hash, ver) |
+| unique: (hash, ver) |
 
 #### Presence Template
 ---
@@ -1235,10 +1279,10 @@ La table ne subit pas d'alteration.
 | - |
 | uuid: TEXT |
 | last_used: NUMBER |
-| <ins>**message**</ins>: TEXT |
-| <ins>**status**</ins>: TEXT |
+| message TEXT |
+| status: TEXT |
 | |
-| id: (message, status) |
+| unique: (message, status) |
 
 ### Unified Push Distributor
 
@@ -1294,3 +1338,56 @@ CREATE TABLE push (
 | instance: TEXT |
 | endpoint: TEXT |
 | expiration: TEXT |
+| |
+| unique: instance |
+
+### Other Construction
+
+Il y a d'autre construction lier à la base de donnée.
+
+#### Virtual Table
+
+Les tables virtuelles sont des constructions propres à SQLite. Elles permettent l'accès à des fonctions de l'application en utilisant l'interface SQL. [Documentation VTables](https://www.sqlite.org/vtab.html)
+
+Dans notre cas, cette table permet de faire de la recherche de texte dans les messages. FTS4 est un module de recherche de texte intégrale, qui intègre un colonne par défaut `rowid`.
+[Documentation FTS4](https://www.sqlite.org/fts3.html)
+
+```java
+private static final String CREATE_MESSAGE_INDEX_TABLE = "CREATE VIRTUAL TABLE messages_index USING fts4 (uuid,body,notindexed=\"uuid\",content=\"" + Message.TABLENAME + "\",tokenize='unicode61')";
+```
+
+```sql
+CREATE VIRTUAL TABLE messages_index USING fts4 (uuid,body,notindexed="uuid",content="messages",tokenize='unicode61')
+```
+
+#### Trigger
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 178`
+
+```java
+private static final String CREATE_MESSAGE_INSERT_TRIGGER = "CREATE TRIGGER after_message_insert AFTER INSERT ON " + Message.TABLENAME + " BEGIN INSERT INTO messages_index(rowid,uuid,body) VALUES(NEW.rowid,NEW.uuid,NEW.body); END;";
+```
+
+```sql
+CREATE TRIGGER after_message_insert AFTER INSERT ON messages BEGIN INSERT INTO messages_index(rowid,uuid,body) VALUES(NEW.rowid,NEW.uuid,NEW.body); END;
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 179`
+
+```java
+private static final String CREATE_MESSAGE_UPDATE_TRIGGER = "CREATE TRIGGER after_message_update UPDATE OF uuid,body ON " + Message.TABLENAME + " BEGIN UPDATE messages_index SET body=NEW.body,uuid=NEW.uuid WHERE rowid=OLD.rowid; END;";
+```
+
+```sql
+CREATE TRIGGER after_message_update UPDATE OF uuid,body ON messages BEGIN UPDATE messages_index SET body=NEW.body,uuid=NEW.uuid WHERE rowid=OLD.rowid; END;
+```
+
+`conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java line 180`
+
+```java
+private static final String CREATE_MESSAGE_DELETE_TRIGGER = "CREATE TRIGGER after_message_delete AFTER DELETE ON " + Message.TABLENAME + " BEGIN DELETE FROM messages_index WHERE rowid=OLD.rowid; END;";
+```
+
+```sql
+CREATE TRIGGER after_message_delete AFTER DELETE ON messages BEGIN DELETE FROM messages_index WHERE rowid=OLD.rowid; END;
+```

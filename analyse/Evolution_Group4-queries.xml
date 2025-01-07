@@ -1,0 +1,1395 @@
+<?xml version="1.0" ?>
+<Queries>
+  <Query id="1">
+    <Value>select count(messages.uuid) from messages join conversations on conversations.uuid=messages.conversationUuid join accounts on conversations.accountUuid=accounts.uuid where accounts.username={{question}} and accounts.server={{question}}</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.services</ExecPackage>
+    <ExecClass>ImportBackupService</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/conversations/java/eu/siacs/conversations/services/ImportBackupService.java</ExecFile>
+    <ExecLine>316</ExecLine>
+    <ExecString>db.rawQuery("select count(messages.uuid) from messages join conversations on conversations.uuid=messages.conversationUuid join accounts on conversations.accountUuid=accounts.uuid where accounts.username=? and accounts.server=?",new String[]{jid.getEscapedLocal(),jid.getDomain().toEscapedString()})</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.services.ImportBackupService.importBackup(android.net.Uri,java.lang.String)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/conversations/java/eu/siacs/conversations/services/ImportBackupService.java" methodLine="237" callLine="317"></Call>
+    </CallStack>
+  </Query>
+  <Query id="2">
+    <Value>CREATE TABLE push (account TEXT, transport TEXT, application TEXT NOT NULL, instance TEXT NOT NULL UNIQUE, endpoint TEXT, expiration NUMBER DEFAULT 0)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>UnifiedPushDatabase</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/UnifiedPushDatabase.java</ExecFile>
+    <ExecLine>44</ExecLine>
+    <ExecString>sqLiteDatabase.execSQL("CREATE TABLE push (account TEXT, transport TEXT, application TEXT NOT NULL, instance TEXT NOT NULL UNIQUE, endpoint TEXT, expiration NUMBER DEFAULT 0)")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.UnifiedPushDatabase.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/UnifiedPushDatabase.java" methodLine="42" callLine="45"></Call>
+    </CallStack>
+  </Query>
+  <Query id="3">
+    <Value>SELECT EXISTS(SELECT endpoint FROM push WHERE account = {{question}} AND transport = {{question}})</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>UnifiedPushDatabase</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/UnifiedPushDatabase.java</ExecFile>
+    <ExecLine>151</ExecLine>
+    <ExecString>sqLiteDatabase.rawQuery("SELECT EXISTS(SELECT endpoint FROM push WHERE account = ? AND transport = ?)",new String[]{transport.account.getUuid(),transport.transport.toEscapedString()})</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.UnifiedPushDatabase.hasEndpoints(eu.siacs.conversations.services.UnifiedPushBroker.Transport)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/UnifiedPushDatabase.java" methodLine="148" callLine="152"></Call>
+    </CallStack>
+  </Query>
+  <Query id="4">
+    <Value>INSERT INTO messages_index(messages_index) VALUES('rebuild');</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>201</ExecLine>
+    <ExecString>db.execSQL(COPY_PREEXISTING_ENTRIES)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.rebuildMessagesIndex()" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="198" callLine="201"></Call>
+    </CallStack>
+  </Query>
+  <Query id="5">
+    <Value>PRAGMA foreign_keys=ON</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>214</ExecLine>
+    <ExecString>db.execSQL("PRAGMA foreign_keys=ON")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onConfigure(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="212" callLine="214"></Call>
+    </CallStack>
+  </Query>
+  <Query id="6">
+    <Value>create table accounts(uuid TEXT PRIMARY KEY,username TEXT,server TEXT,password TEXT,display_name TEXT, status TEXT,status_message TEXT,rosterversion TEXT,options NUMBER, avatar TEXT, keys TEXT, hostname TEXT, resource TEXT,pinned_mechanism TEXT,pinned_channel_binding TEXT,fast_mechanism TEXT,fast_token TEXT,port NUMBER DEFAULT 5222)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>220</ExecLine>
+    <ExecString>db.execSQL("create table " + Account.TABLENAME + "("+ Account.UUID+ " TEXT PRIMARY KEY,"+ Account.USERNAME+ " TEXT,"+ Account.SERVER+ " TEXT,"+ Account.PASSWORD+ " TEXT,"+ Account.DISPLAY_NAME+ " TEXT, "+ Account.STATUS+ " TEXT,"+ Account.STATUS_MESSAGE+ " TEXT,"+ Account.ROSTERVERSION+ " TEXT,"+ Account.OPTIONS+ " NUMBER, "+ Account.AVATAR+ " TEXT, "+ Account.KEYS+ " TEXT, "+ Account.HOSTNAME+ " TEXT, "+ Account.RESOURCE+ " TEXT,"+ Account.PINNED_MECHANISM+ " TEXT,"+ Account.PINNED_CHANNEL_BINDING+ " TEXT,"+ Account.FAST_MECHANISM+ " TEXT,"+ Account.FAST_TOKEN+ " TEXT,"+ Account.PORT+ " NUMBER DEFAULT 5222)")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="220"></Call>
+    </CallStack>
+  </Query>
+  <Query id="7">
+    <Value>create table conversations (uuid TEXT PRIMARY KEY, name TEXT, contactUuid TEXT, accountUuid TEXT, contactJid TEXT, created NUMBER, status NUMBER, mode NUMBER, attributes TEXT, FOREIGN KEY(accountUuid) REFERENCES accounts(uuid) ON DELETE CASCADE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>238</ExecLine>
+    <ExecString>db.execSQL("create table " + Conversation.TABLENAME + " ("+ Conversation.UUID+ " TEXT PRIMARY KEY, "+ Conversation.NAME+ " TEXT, "+ Conversation.CONTACT+ " TEXT, "+ Conversation.ACCOUNT+ " TEXT, "+ Conversation.CONTACTJID+ " TEXT, "+ Conversation.CREATED+ " NUMBER, "+ Conversation.STATUS+ " NUMBER, "+ Conversation.MODE+ " NUMBER, "+ Conversation.ATTRIBUTES+ " TEXT, FOREIGN KEY("+ Conversation.ACCOUNT+ ") REFERENCES "+ Account.TABLENAME+ "("+ Account.UUID+ ") ON DELETE CASCADE);")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="238"></Call>
+    </CallStack>
+  </Query>
+  <Query id="8">
+    <Value>create table messages( uuid TEXT PRIMARY KEY, conversationUuid TEXT, timeSent NUMBER, counterpart TEXT, trueCounterpart TEXT,body TEXT, encryption NUMBER, status NUMBER,type NUMBER, relativeFilePath TEXT, serverMsgId TEXT, axolotl_fingerprint TEXT, carbon INTEGER, edited TEXT, read NUMBER DEFAULT 1, oob INTEGER, errorMsg TEXT,readByMarkers TEXT,markable NUMBER DEFAULT 0,deleted NUMBER DEFAULT 0,bodyLanguage TEXT,occupantId TEXT,reactions TEXT,remoteMsgId TEXT, FOREIGN KEY(conversationUuid) REFERENCES conversations(uuid) ON DELETE CASCADE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>247</ExecLine>
+    <ExecString>db.execSQL("create table " + Message.TABLENAME + "( "+ Message.UUID+ " TEXT PRIMARY KEY, "+ Message.CONVERSATION+ " TEXT, "+ Message.TIME_SENT+ " NUMBER, "+ Message.COUNTERPART+ " TEXT, "+ Message.TRUE_COUNTERPART+ " TEXT,"+ Message.BODY+ " TEXT, "+ Message.ENCRYPTION+ " NUMBER, "+ Message.STATUS+ " NUMBER,"+ Message.TYPE+ " NUMBER, "+ Message.RELATIVE_FILE_PATH+ " TEXT, "+ Message.SERVER_MSG_ID+ " TEXT, "+ Message.FINGERPRINT+ " TEXT, "+ Message.CARBON+ " INTEGER, "+ Message.EDITED+ " TEXT, "+ Message.READ+ " NUMBER DEFAULT 1, "+ Message.OOB+ " INTEGER, "+ Message.ERROR_MESSAGE+ " TEXT,"+ Message.READ_BY_MARKERS+ " TEXT,"+ Message.MARKABLE+ " NUMBER DEFAULT 0,"+ Message.DELETED+ " NUMBER DEFAULT 0,"+ Message.BODY_LANGUAGE+ " TEXT,"+ Message.OCCUPANT_ID+ " TEXT,"+ Message.REACTIONS+ " TEXT,"+ Message.REMOTE_MSG_ID+ " TEXT, FOREIGN KEY("+ Message.CONVERSATION+ ") REFERENCES "+ Conversation.TABLENAME+ "("+ Conversation.UUID+ ") ON DELETE CASCADE);")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="247"></Call>
+    </CallStack>
+  </Query>
+  <Query id="9">
+    <Value>CREATE INDEX message_time_index ON messages(timeSent)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>271</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_TIME_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="271"></Call>
+    </CallStack>
+  </Query>
+  <Query id="10">
+    <Value>CREATE INDEX message_conversation_index ON messages(conversationUuid)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>272</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_CONVERSATION_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="272"></Call>
+    </CallStack>
+  </Query>
+  <Query id="11">
+    <Value>CREATE INDEX message_deleted_index ON messages(deleted)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>273</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_DELETED_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="273"></Call>
+    </CallStack>
+  </Query>
+  <Query id="12">
+    <Value>CREATE INDEX message_file_path_index ON messages(relativeFilePath)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>274</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_RELATIVE_FILE_PATH_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="274"></Call>
+    </CallStack>
+  </Query>
+  <Query id="13">
+    <Value>CREATE INDEX message_type_index ON messages(type)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>275</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_TYPE_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="275"></Call>
+    </CallStack>
+  </Query>
+  <Query id="14">
+    <Value>create table contacts(accountUuid TEXT, servername TEXT, systemname TEXT,presence_name TEXT,jid TEXT,pgpkey TEXT,photouri TEXT,options NUMBER,systemaccount NUMBER, avatar TEXT, last_presence TEXT, last_time NUMBER, rtpCapability TEXT,groups TEXT, FOREIGN KEY(accountUuid) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE(accountUuid, jid) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>276</ExecLine>
+    <ExecString>db.execSQL(CREATE_CONTATCS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="276"></Call>
+    </CallStack>
+  </Query>
+  <Query id="15">
+    <Value>create table discovery_results(hash TEXT, ver TEXT, result TEXT, UNIQUE(hash, ver) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>277</ExecLine>
+    <ExecString>db.execSQL(CREATE_DISCOVERY_RESULTS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="277"></Call>
+    </CallStack>
+  </Query>
+  <Query id="16">
+    <Value>CREATE TABLE sessions(account TEXT,  name TEXT, device_id INTEGER, key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, name, device_id) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>278</ExecLine>
+    <ExecString>db.execSQL(CREATE_SESSIONS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="278"></Call>
+    </CallStack>
+  </Query>
+  <Query id="17">
+    <Value>CREATE TABLE prekeys(account TEXT,  id INTEGER, key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, id) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>279</ExecLine>
+    <ExecString>db.execSQL(CREATE_PREKEYS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="279"></Call>
+    </CallStack>
+  </Query>
+  <Query id="18">
+    <Value>CREATE TABLE signed_prekeys(account TEXT,  id INTEGER, key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, id) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>280</ExecLine>
+    <ExecString>db.execSQL(CREATE_SIGNED_PREKEYS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="280"></Call>
+    </CallStack>
+  </Query>
+  <Query id="19">
+    <Value>CREATE TABLE identities(account TEXT,  name TEXT, ownkey INTEGER, fingerprint TEXT, certificate BLOB, trust TEXT, active NUMBER, last_activation NUMBER,key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, name, fingerprint) ON CONFLICT IGNORE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>281</ExecLine>
+    <ExecString>db.execSQL(CREATE_IDENTITIES_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="281"></Call>
+    </CallStack>
+  </Query>
+  <Query id="20">
+    <Value>CREATE TABLE presence_templates(uuid TEXT, last_used NUMBER,message TEXT,status TEXT,UNIQUE(message,status) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>282</ExecLine>
+    <ExecString>db.execSQL(CREATE_PRESENCE_TEMPLATES_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="282"></Call>
+    </CallStack>
+  </Query>
+  <Query id="21">
+    <Value>create table resolver_results(domain TEXT,hostname TEXT,ip BLOB,priority NUMBER,directTls NUMBER,authenticated NUMBER,port NUMBER,UNIQUE(domain) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>283</ExecLine>
+    <ExecString>db.execSQL(CREATE_RESOLVER_RESULTS_TABLE)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="283"></Call>
+    </CallStack>
+  </Query>
+  <Query id="22">
+    <Value>CREATE VIRTUAL TABLE messages_index USING fts4 (uuid,body,notindexed="uuid",content="messages",tokenize='unicode61')</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>284</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_INDEX_TABLE)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="284"></Call>
+    </CallStack>
+  </Query>
+  <Query id="23">
+    <Value>CREATE TRIGGER after_message_insert AFTER INSERT ON messages BEGIN INSERT INTO messages_index(rowid,uuid,body) VALUES(NEW.rowid,NEW.uuid,NEW.body); END;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>285</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_INSERT_TRIGGER)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="285"></Call>
+    </CallStack>
+  </Query>
+  <Query id="24">
+    <Value>CREATE TRIGGER after_message_update UPDATE OF uuid,body ON messages BEGIN UPDATE messages_index SET body=NEW.body,uuid=NEW.uuid WHERE rowid=OLD.rowid; END;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>286</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_UPDATE_TRIGGER)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="286"></Call>
+    </CallStack>
+  </Query>
+  <Query id="25">
+    <Value>CREATE TRIGGER after_message_delete AFTER DELETE ON messages BEGIN DELETE FROM messages_index WHERE rowid=OLD.rowid; END;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>287</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_DELETE_TRIGGER)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onCreate(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="218" callLine="287"></Call>
+    </CallStack>
+  </Query>
+  <Query id="26">
+    <Value>update accounts set options = options | 8</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>293</ExecLine>
+    <ExecString>db.execSQL("update " + Account.TABLENAME + " set "+ Account.OPTIONS+ " = "+ Account.OPTIONS+ " | 8")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="293"></Call>
+    </CallStack>
+  </Query>
+  <Query id="27">
+    <Value>ALTER TABLE messages ADD COLUMN type NUMBER</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>297</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.TYPE+ " NUMBER")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="297"></Call>
+    </CallStack>
+  </Query>
+  <Query id="28">
+    <Value>DROP TABLE contacts</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>301</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE " + Contact.TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="301"></Call>
+    </CallStack>
+  </Query>
+  <Query id="29">
+    <Value>create table contacts(accountUuid TEXT, servername TEXT, systemname TEXT,presence_name TEXT,jid TEXT,pgpkey TEXT,photouri TEXT,options NUMBER,systemaccount NUMBER, avatar TEXT, last_presence TEXT, last_time NUMBER, rtpCapability TEXT,groups TEXT, FOREIGN KEY(accountUuid) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE(accountUuid, jid) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>302</ExecLine>
+    <ExecString>db.execSQL(CREATE_CONTATCS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="302"></Call>
+    </CallStack>
+  </Query>
+  <Query id="30">
+    <Value>UPDATE accounts SET rosterversion = NULL</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>303</ExecLine>
+    <ExecString>db.execSQL("UPDATE " + Account.TABLENAME + " SET "+ Account.ROSTERVERSION+ " = NULL")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="303"></Call>
+    </CallStack>
+  </Query>
+  <Query id="31">
+    <Value>ALTER TABLE messages ADD COLUMN trueCounterpart TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>307</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.TRUE_COUNTERPART+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="307"></Call>
+    </CallStack>
+  </Query>
+  <Query id="32">
+    <Value>ALTER TABLE messages ADD COLUMN remoteMsgId TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>311</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.REMOTE_MSG_ID+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="311"></Call>
+    </CallStack>
+  </Query>
+  <Query id="33">
+    <Value>ALTER TABLE contacts ADD COLUMN avatar TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>313</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Contact.TABLENAME + " ADD COLUMN "+ Contact.AVATAR+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="313"></Call>
+    </CallStack>
+  </Query>
+  <Query id="34">
+    <Value>ALTER TABLE accounts ADD COLUMN avatar TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>315</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.AVATAR+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="315"></Call>
+    </CallStack>
+  </Query>
+  <Query id="35">
+    <Value>ALTER TABLE conversations ADD COLUMN attributes TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>319</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Conversation.TABLENAME + " ADD COLUMN "+ Conversation.ATTRIBUTES+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="319"></Call>
+    </CallStack>
+  </Query>
+  <Query id="36">
+    <Value>ALTER TABLE contacts ADD COLUMN last_time NUMBER</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>323</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Contact.TABLENAME + " ADD COLUMN "+ Contact.LAST_TIME+ " NUMBER")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="323"></Call>
+    </CallStack>
+  </Query>
+  <Query id="37">
+    <Value>ALTER TABLE contacts ADD COLUMN last_presence TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>325</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Contact.TABLENAME + " ADD COLUMN "+ Contact.LAST_PRESENCE+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="325"></Call>
+    </CallStack>
+  </Query>
+  <Query id="38">
+    <Value>ALTER TABLE messages ADD COLUMN relativeFilePath TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>329</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.RELATIVE_FILE_PATH+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="329"></Call>
+    </CallStack>
+  </Query>
+  <Query id="39">
+    <Value>ALTER TABLE contacts ADD COLUMN groups TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>333</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Contact.TABLENAME + " ADD COLUMN "+ Contact.GROUPS+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="333"></Call>
+    </CallStack>
+  </Query>
+  <Query id="40">
+    <Value>delete from contacts</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>335</ExecLine>
+    <ExecString>db.execSQL("delete from " + Contact.TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="335"></Call>
+    </CallStack>
+  </Query>
+  <Query id="41">
+    <Value>update accounts set rosterversion = NULL</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>336</ExecLine>
+    <ExecString>db.execSQL("update " + Account.TABLENAME + " set "+ Account.ROSTERVERSION+ " = NULL")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="336"></Call>
+    </CallStack>
+  </Query>
+  <Query id="42">
+    <Value>ALTER TABLE messages ADD COLUMN serverMsgId TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>339</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.SERVER_MSG_ID+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="339"></Call>
+    </CallStack>
+  </Query>
+  <Query id="43">
+    <Value>delete from contacts</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>343</ExecLine>
+    <ExecString>db.execSQL("delete from " + Contact.TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="343"></Call>
+    </CallStack>
+  </Query>
+  <Query id="44">
+    <Value>update accounts set rosterversion = NULL</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>344</ExecLine>
+    <ExecString>db.execSQL("update " + Account.TABLENAME + " set "+ Account.ROSTERVERSION+ " = NULL")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="344"></Call>
+    </CallStack>
+  </Query>
+  <Query id="45">
+    <Value>ALTER TABLE messages ADD COLUMN axolotl_fingerprint TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>351</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.FINGERPRINT+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="351"></Call>
+    </CallStack>
+  </Query>
+  <Query id="46">
+    <Value>ALTER TABLE messages ADD COLUMN carbon INTEGER</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>355</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.CARBON+ " INTEGER")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="355"></Call>
+    </CallStack>
+  </Query>
+  <Query id="47">
+    <Value>ALTER TABLE accounts ADD COLUMN display_name TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>359</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.DISPLAY_NAME+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="359"></Call>
+    </CallStack>
+  </Query>
+  <Query id="48">
+    <Value>ALTER TABLE accounts ADD COLUMN hostname TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>362</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.HOSTNAME+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="362"></Call>
+    </CallStack>
+  </Query>
+  <Query id="49">
+    <Value>ALTER TABLE accounts ADD COLUMN port NUMBER DEFAULT 5222</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>363</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.PORT+ " NUMBER DEFAULT 5222")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="363"></Call>
+    </CallStack>
+  </Query>
+  <Query id="50">
+    <Value>ALTER TABLE accounts ADD COLUMN status TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>366</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.STATUS+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="366"></Call>
+    </CallStack>
+  </Query>
+  <Query id="51">
+    <Value>ALTER TABLE accounts ADD COLUMN status_message TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>367</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.STATUS_MESSAGE+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="367"></Call>
+    </CallStack>
+  </Query>
+  <Query id="52">
+    <Value>ALTER TABLE accounts ADD COLUMN resource TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>370</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.RESOURCE+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="370"></Call>
+    </CallStack>
+  </Query>
+  <Query id="53">
+    <Value>ALTER TABLE messages ADD COLUMN read NUMBER DEFAULT 1</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>403</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.READ+ " NUMBER DEFAULT 1")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="403"></Call>
+    </CallStack>
+  </Query>
+  <Query id="54">
+    <Value>ALTER TABLE identities ADD COLUMN certificate</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>416</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN "+ SQLiteAxolotlStore.CERTIFICATE)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="416"></Call>
+    </CallStack>
+  </Query>
+  <Query id="55">
+    <Value>create table discovery_results(hash TEXT, ver TEXT, result TEXT, UNIQUE(hash, ver) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>420</ExecLine>
+    <ExecString>db.execSQL(CREATE_DISCOVERY_RESULTS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="420"></Call>
+    </CallStack>
+  </Query>
+  <Query id="56">
+    <Value>ALTER TABLE messages ADD COLUMN edited TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>424</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.EDITED+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="424"></Call>
+    </CallStack>
+  </Query>
+  <Query id="57">
+    <Value>ALTER TABLE messages ADD COLUMN oob INTEGER</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>428</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.OOB+ " INTEGER")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="428"></Call>
+    </CallStack>
+  </Query>
+  <Query id="58">
+    <Value>CREATE TABLE presence_templates(uuid TEXT, last_used NUMBER,message TEXT,status TEXT,UNIQUE(message,status) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>432</ExecLine>
+    <ExecString>db.execSQL(CREATE_PRESENCE_TEMPLATES_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="432"></Call>
+    </CallStack>
+  </Query>
+  <Query id="59">
+    <Value>DELETE FROM discovery_results</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>436</ExecLine>
+    <ExecString>db.execSQL("DELETE FROM " + ServiceDiscoveryResult.TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="436"></Call>
+    </CallStack>
+  </Query>
+  <Query id="60">
+    <Value>ALTER TABLE messages ADD COLUMN errorMsg TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>444</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.ERROR_MESSAGE+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="444"></Call>
+    </CallStack>
+  </Query>
+  <Query id="61">
+    <Value>ALTER TABLE identities ADD COLUMN trust TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>447</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN "+ SQLiteAxolotlStore.TRUST+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="447"></Call>
+    </CallStack>
+  </Query>
+  <Query id="62">
+    <Value>ALTER TABLE identities ADD COLUMN active NUMBER</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>448</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN "+ SQLiteAxolotlStore.ACTIVE+ " NUMBER")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="448"></Call>
+    </CallStack>
+  </Query>
+  <Query id="63">
+    <Value>ALTER TABLE identities ADD COLUMN last_activation NUMBER</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>467</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + SQLiteAxolotlStore.IDENTITIES_TABLENAME + " ADD COLUMN "+ SQLiteAxolotlStore.LAST_ACTIVATION+ " NUMBER")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="467"></Call>
+    </CallStack>
+  </Query>
+  <Query id="64">
+    <Value>CREATE INDEX message_time_index ON messages(timeSent)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>478</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_TIME_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="478"></Call>
+    </CallStack>
+  </Query>
+  <Query id="65">
+    <Value>CREATE INDEX message_conversation_index ON messages(conversationUuid)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>520</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_CONVERSATION_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="520"></Call>
+    </CallStack>
+  </Query>
+  <Query id="66">
+    <Value>ALTER TABLE messages ADD COLUMN readByMarkers TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>533</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.READ_BY_MARKERS+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="533"></Call>
+    </CallStack>
+  </Query>
+  <Query id="67">
+    <Value>ALTER TABLE messages ADD COLUMN markable NUMBER DEFAULT 0</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>537</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.MARKABLE+ " NUMBER DEFAULT 0")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="537"></Call>
+    </CallStack>
+  </Query>
+  <Query id="68">
+    <Value>create table resolver_results(domain TEXT,hostname TEXT,ip BLOB,priority NUMBER,directTls NUMBER,authenticated NUMBER,port NUMBER,UNIQUE(domain) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>541</ExecLine>
+    <ExecString>db.execSQL(CREATE_RESOLVER_RESULTS_TABLE)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="541"></Call>
+    </CallStack>
+  </Query>
+  <Query id="69">
+    <Value>ALTER TABLE messages ADD COLUMN deleted NUMBER DEFAULT 0</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>554</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.DELETED+ " NUMBER DEFAULT 0")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="554"></Call>
+    </CallStack>
+  </Query>
+  <Query id="70">
+    <Value>CREATE INDEX message_deleted_index ON messages(deleted)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>555</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_DELETED_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="555"></Call>
+    </CallStack>
+  </Query>
+  <Query id="71">
+    <Value>CREATE INDEX message_file_path_index ON messages(relativeFilePath)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>556</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_RELATIVE_FILE_PATH_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="556"></Call>
+    </CallStack>
+  </Query>
+  <Query id="72">
+    <Value>CREATE INDEX message_type_index ON messages(type)</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>557</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_TYPE_INDEX)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="557"></Call>
+    </CallStack>
+  </Query>
+  <Query id="73">
+    <Value>ALTER TABLE messages ADD COLUMN bodyLanguage</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>561</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.BODY_LANGUAGE)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="561"></Call>
+    </CallStack>
+  </Query>
+  <Query id="74">
+    <Value>update messages set edited=NULL</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>567</ExecLine>
+    <ExecString>db.execSQL("update " + Message.TABLENAME + " set "+ Message.EDITED+ "=NULL")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="567"></Call>
+    </CallStack>
+  </Query>
+  <Query id="75">
+    <Value>ALTER TABLE contacts ADD COLUMN presence_name TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>573</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Contact.TABLENAME + " ADD COLUMN "+ Contact.PRESENCE_NAME+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="573"></Call>
+    </CallStack>
+  </Query>
+  <Query id="76">
+    <Value>ALTER TABLE contacts ADD COLUMN rtpCapability TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>576</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Contact.TABLENAME + " ADD COLUMN "+ Contact.RTP_CAPABILITY+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="576"></Call>
+    </CallStack>
+  </Query>
+  <Query id="77">
+    <Value>DROP TRIGGER IF EXISTS after_message_insert;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>580</ExecLine>
+    <ExecString>db.execSQL("DROP TRIGGER IF EXISTS after_message_insert;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="580"></Call>
+    </CallStack>
+  </Query>
+  <Query id="78">
+    <Value>DROP TRIGGER IF EXISTS after_message_update;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>581</ExecLine>
+    <ExecString>db.execSQL("DROP TRIGGER IF EXISTS after_message_update;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="581"></Call>
+    </CallStack>
+  </Query>
+  <Query id="79">
+    <Value>DROP TRIGGER IF EXISTS after_message_delete;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>582</ExecLine>
+    <ExecString>db.execSQL("DROP TRIGGER IF EXISTS after_message_delete;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="582"></Call>
+    </CallStack>
+  </Query>
+  <Query id="80">
+    <Value>DROP TABLE IF EXISTS messages_index;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>583</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS messages_index;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="583"></Call>
+    </CallStack>
+  </Query>
+  <Query id="81">
+    <Value>DROP TABLE IF EXISTS messages_index_docsize;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>586</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS messages_index_docsize;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="586"></Call>
+    </CallStack>
+  </Query>
+  <Query id="82">
+    <Value>DROP TABLE IF EXISTS messages_index_segdir;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>587</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS messages_index_segdir;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="587"></Call>
+    </CallStack>
+  </Query>
+  <Query id="83">
+    <Value>DROP TABLE IF EXISTS messages_index_segments;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>588</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS messages_index_segments;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="588"></Call>
+    </CallStack>
+  </Query>
+  <Query id="84">
+    <Value>DROP TABLE IF EXISTS messages_index_stat;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>589</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS messages_index_stat;")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="589"></Call>
+    </CallStack>
+  </Query>
+  <Query id="85">
+    <Value>CREATE VIRTUAL TABLE messages_index USING fts4 (uuid,body,notindexed="uuid",content="messages",tokenize='unicode61')</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>590</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_INDEX_TABLE)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="590"></Call>
+    </CallStack>
+  </Query>
+  <Query id="86">
+    <Value>CREATE TRIGGER after_message_insert AFTER INSERT ON messages BEGIN INSERT INTO messages_index(rowid,uuid,body) VALUES(NEW.rowid,NEW.uuid,NEW.body); END;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>591</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_INSERT_TRIGGER)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="591"></Call>
+    </CallStack>
+  </Query>
+  <Query id="87">
+    <Value>CREATE TRIGGER after_message_update UPDATE OF uuid,body ON messages BEGIN UPDATE messages_index SET body=NEW.body,uuid=NEW.uuid WHERE rowid=OLD.rowid; END;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>592</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_UPDATE_TRIGGER)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="592"></Call>
+    </CallStack>
+  </Query>
+  <Query id="88">
+    <Value>CREATE TRIGGER after_message_delete AFTER DELETE ON messages BEGIN DELETE FROM messages_index WHERE rowid=OLD.rowid; END;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>593</ExecLine>
+    <ExecString>db.execSQL(CREATE_MESSAGE_DELETE_TRIGGER)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="593"></Call>
+    </CallStack>
+  </Query>
+  <Query id="89">
+    <Value>ALTER TABLE accounts ADD COLUMN pinned_mechanism TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>599</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.PINNED_MECHANISM+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="599"></Call>
+    </CallStack>
+  </Query>
+  <Query id="90">
+    <Value>ALTER TABLE accounts ADD COLUMN pinned_channel_binding TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>600</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.PINNED_CHANNEL_BINDING+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="600"></Call>
+    </CallStack>
+  </Query>
+  <Query id="91">
+    <Value>ALTER TABLE accounts ADD COLUMN fast_mechanism TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>603</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.FAST_MECHANISM+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="603"></Call>
+    </CallStack>
+  </Query>
+  <Query id="92">
+    <Value>ALTER TABLE accounts ADD COLUMN fast_token TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>604</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Account.TABLENAME + " ADD COLUMN "+ Account.FAST_TOKEN+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="604"></Call>
+    </CallStack>
+  </Query>
+  <Query id="93">
+    <Value>ALTER TABLE messages ADD COLUMN occupantId TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>607</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.OCCUPANT_ID+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="607"></Call>
+    </CallStack>
+  </Query>
+  <Query id="94">
+    <Value>ALTER TABLE messages ADD COLUMN reactions TEXT</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>608</ExecLine>
+    <ExecString>db.execSQL("ALTER TABLE " + Message.TABLENAME + " ADD COLUMN "+ Message.REACTIONS+ " TEXT")</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.onUpgrade(android.database.sqlite.SQLiteDatabase,int,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="290" callLine="608"></Call>
+    </CallStack>
+  </Query>
+  <Query id="95">
+    <Value>select * from conversations</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>616</ExecLine>
+    <ExecString>db.rawQuery("select * from " + Conversation.TABLENAME,new String[0])</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.canonicalizeJids(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="612" callLine="616"></Call>
+    </CallStack>
+  </Query>
+  <Query id="96">
+    <Value>update conversations set contactJid = {{question}}  where uuid = {{question}}</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>632</ExecLine>
+    <ExecString>db.execSQL("update " + Conversation.TABLENAME + " set "+ Conversation.CONTACTJID+ " = ? "+ " where "+ Conversation.UUID+ " = ?",updateArgs)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.canonicalizeJids(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="612" callLine="632"></Call>
+    </CallStack>
+  </Query>
+  <Query id="97">
+    <Value>select * from contacts</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>639</ExecLine>
+    <ExecString>db.rawQuery("select * from " + Contact.TABLENAME,new String[0])</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.canonicalizeJids(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="612" callLine="639"></Call>
+    </CallStack>
+  </Query>
+  <Query id="98">
+    <Value>update contacts set jid = {{question}}  where accountUuid = {{question}}  AND jid = {{question}}</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>656</ExecLine>
+    <ExecString>db.execSQL("update " + Contact.TABLENAME + " set "+ Contact.JID+ " = ? "+ " where "+ Contact.ACCOUNT+ " = ? "+ " AND "+ Contact.JID+ " = ?",updateArgs)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.canonicalizeJids(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="612" callLine="656"></Call>
+    </CallStack>
+  </Query>
+  <Query id="99">
+    <Value>select * from accounts</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>664</ExecLine>
+    <ExecString>db.rawQuery("select * from " + Account.TABLENAME,new String[0])</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.canonicalizeJids(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="612" callLine="664"></Call>
+    </CallStack>
+  </Query>
+  <Query id="100">
+    <Value>update accounts set server = {{question}}  where uuid = {{question}}</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>684</ExecLine>
+    <ExecString>db.execSQL("update " + Account.TABLENAME + " set "+ Account.SERVER+ " = ? "+ " where "+ Account.UUID+ " = ?",updateArgs)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.canonicalizeJids(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="612" callLine="684"></Call>
+    </CallStack>
+  </Query>
+  <Query id="101">
+    <Value>select * from conversations where status = {{question}} and contactJid is not null order by created desc</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>784</ExecLine>
+    <ExecString>db.rawQuery("select * from " + Conversation.TABLENAME + " where "+ Conversation.STATUS+ " = ? and "+ Conversation.CONTACTJID+ " is not null order by "+ Conversation.CREATED+ " desc",selectionArgs)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.getConversations(int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="780" callLine="784"></Call>
+    </CallStack>
+  </Query>
+  <Query id="102">
+    <Value>SELECT messages.*,conversations.contactJid,conversations.accountUuid,conversations.mode FROM messages JOIN conversations ON messages.conversationUuid=conversations.uuid JOIN messages_index ON messages_index.rowid=messages.rowid WHERE encryption NOT IN(6,1,4,7) AND type IN(0,4) AND messages_index.body MATCH {{question}} ORDER BY timeSent DESC limit 300</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>844</ExecLine>
+    <ExecString>db.rawQuery(SQL.toString(),selectionArgs)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.getMessageSearchCursor(java.util.List,java.lang.String)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="831" callLine="844"></Call>
+    </CallStack>
+  </Query>
+  <Query id="103">
+    <Value>SELECT messages.*,conversations.contactJid,conversations.accountUuid,conversations.mode FROM messages JOIN conversations ON messages.conversationUuid=conversations.uuid JOIN messages_index ON messages_index.rowid=messages.rowid WHERE encryption NOT IN(6,1,4,7) AND type IN(0,4) AND messages_index.body MATCH {{question}} AND conversations.uuid={{question}} ORDER BY timeSent DESC limit 300</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>844</ExecLine>
+    <ExecString>db.rawQuery(SQL.toString(),selectionArgs)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.getMessageSearchCursor(java.util.List,java.lang.String)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="831" callLine="844"></Call>
+    </CallStack>
+  </Query>
+  <Query id="104">
+    <Value>select uuid,relativeFilePath from messages where type in (1,2,5) and deleted=0 and relativeFilePath is not null and conversationUuid=(select uuid from conversations where accountUuid={{question}} and (contactJid={{question}} or contactJid like {{question}})) order by timeSent desc{{na}}</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>919</ExecLine>
+    <ExecString>db.rawQuery(SQL + (limit &gt; 0 ? " limit " + limit : ""),args)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.getRelativeFilePaths(java.lang.String,eu.siacs.conversations.xmpp.Jid,int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="915" callLine="919"></Call>
+    </CallStack>
+  </Query>
+  <Query id="105">
+    <Value>select messages.timeSentiont,messages.serverMsgId from accounts join conversas on accounts.uuid=conversations.accountUuid join messages on conversations.uuid=messages.conversationUuid where accounts.uuid={{question}} and (messages.status=0 or messages.carbon=1 or messages.serverMsgId not null) and (conversations.mode=0 or (messages.serverMsgId not null and messages.type=4)) order by messages.timesent desc limit 1</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1146</ExecLine>
+    <ExecString>db.rawQuery(sql,args)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.getLastMessageReceived(eu.siacs.conversations.entities.Account)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1140" callLine="1146"></Call>
+    </CallStack>
+  </Query>
+  <Query id="106">
+    <Value>select messages.timeSent from accounts join conversations on accounts.uuid=conversations.accountUuid join messages on conversations.uuid=messages.conversationUuid where accounts.uuid={{question}} and messages.axolotl_fingerprint={{question}} order by messages.timesent desc limit 1</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1165</ExecLine>
+    <ExecString>getReadableDatabase().rawQuery(SQL,args)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.getLastTimeFingerprintUsed(eu.siacs.conversations.entities.Account,java.lang.String)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1162" callLine="1165"></Call>
+    </CallStack>
+  </Query>
+  <Query id="107">
+    <Value>DROP TABLE IF EXISTS sessions</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1688</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS " + SQLiteAxolotlStore.SESSION_TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1688"></Call>
+    </CallStack>
+  </Query>
+  <Query id="108">
+    <Value>CREATE TABLE sessions(account TEXT,  name TEXT, device_id INTEGER, key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, name, device_id) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1689</ExecLine>
+    <ExecString>db.execSQL(CREATE_SESSIONS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1689"></Call>
+    </CallStack>
+  </Query>
+  <Query id="109">
+    <Value>DROP TABLE IF EXISTS prekeys</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1690</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS " + SQLiteAxolotlStore.PREKEY_TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1690"></Call>
+    </CallStack>
+  </Query>
+  <Query id="110">
+    <Value>CREATE TABLE prekeys(account TEXT,  id INTEGER, key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, id) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1691</ExecLine>
+    <ExecString>db.execSQL(CREATE_PREKEYS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1691"></Call>
+    </CallStack>
+  </Query>
+  <Query id="111">
+    <Value>DROP TABLE IF EXISTS signed_prekeys</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1692</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS " + SQLiteAxolotlStore.SIGNED_PREKEY_TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1692"></Call>
+    </CallStack>
+  </Query>
+  <Query id="112">
+    <Value>CREATE TABLE signed_prekeys(account TEXT,  id INTEGER, key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, id) ON CONFLICT REPLACE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1693</ExecLine>
+    <ExecString>db.execSQL(CREATE_SIGNED_PREKEYS_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1693"></Call>
+    </CallStack>
+  </Query>
+  <Query id="113">
+    <Value>DROP TABLE IF EXISTS identities</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1694</ExecLine>
+    <ExecString>db.execSQL("DROP TABLE IF EXISTS " + SQLiteAxolotlStore.IDENTITIES_TABLENAME)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1694"></Call>
+    </CallStack>
+  </Query>
+  <Query id="114">
+    <Value>CREATE TABLE identities(account TEXT,  name TEXT, ownkey INTEGER, fingerprint TEXT, certificate BLOB, trust TEXT, active NUMBER, last_activation NUMBER,key TEXT, FOREIGN KEY(account) REFERENCES accounts(uuid) ON DELETE CASCADE, UNIQUE( account, name, fingerprint) ON CONFLICT IGNORE);</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1695</ExecLine>
+    <ExecString>db.execSQL(CREATE_IDENTITIES_STATEMENT)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.recreateAxolotlDb(android.database.sqlite.SQLiteDatabase)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1686" callLine="1695"></Call>
+    </CallStack>
+  </Query>
+  <Query id="115">
+    <Value>select conversations.accountUuid,conversations.contactJid from conversations join messages on conversations.uuid=messages.conversationUuid where messages.status!=0 and carbon==0  and conversations.mode=0 and messages.timeSent&gt;={{question}} group by conversations.uuid order by count(body) desc limit 4;</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.persistance</ExecPackage>
+    <ExecClass>DatabaseBackend</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java</ExecFile>
+    <ExecLine>1723</ExecLine>
+    <ExecString>db.rawQuery(SQL,whereArgs)</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.persistance.DatabaseBackend.getFrequentContacts(int)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/persistance/DatabaseBackend.java" methodLine="1719" callLine="1723"></Call>
+    </CallStack>
+  </Query>
+  <Query id="116">
+    <Value>select messages.* from messages join conversations on conversations.uuid=messages.conversationUuid where conversations.accountUuid={{question}}</Value>
+    <HotspotFinder>AndroidHotspotFinder</HotspotFinder>
+    <ExecPackage>eu.siacs.conversations.worker</ExecPackage>
+    <ExecClass>ExportBackupWorker</ExecClass>
+    <ExecFile>/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/worker/ExportBackupWorker.java</ExecFile>
+    <ExecLine>381</ExecLine>
+    <ExecString>db.rawQuery("select messages.* from messages join conversations on conversations.uuid=messages.conversationUuid where conversations.accountUuid=?",new String[]{uuid})</ExecString>
+    <CallStack>
+      <Call method="eu.siacs.conversations.worker.ExportBackupWorker.messageExport(android.database.sqlite.SQLiteDatabase,java.lang.String,eu.siacs.conversations.worker.JsonWriter,eu.siacs.conversations.worker.ExportBackupWorker.Progress)" file="/Users/ryad/Documents/GitHub/Evolution_Group4/conversations/src/main/java/eu/siacs/conversations/worker/ExportBackupWorker.java" methodLine="372" callLine="382"></Call>
+    </CallStack>
+  </Query>
+</Queries>
